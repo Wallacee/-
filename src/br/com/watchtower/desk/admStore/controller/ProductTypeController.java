@@ -7,7 +7,6 @@ package br.com.watchtower.desk.admStore.controller;
 
 import br.com.watchtower.desk.admStore.model.ProductType;
 import br.com.watchtower.desk.admStore.queryAssembler.ProductTypeBean;
-import java.util.List;
 
 /**
  *
@@ -41,7 +40,4 @@ public class ProductTypeController extends BaseController {
             return getFeedBackErro();
         }
     }
-    
-    
-
 }
