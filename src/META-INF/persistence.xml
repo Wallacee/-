@@ -19,11 +19,11 @@
     <class>br.com.watchtower.desk.admStore.model.Address</class>
     <class>br.com.watchtower.desk.admStore.model.Supplier</class>
     <class>br.com.watchtower.desk.admStore.model.ProductAmount</class>
-    <class>br.com.watchtower.desk.admStore.model.Financial</class>
     <class>br.com.watchtower.desk.admStore.model.ProductValueMeasureUnit</class>
     <class>br.com.watchtower.desk.admStore.model.ProductClass</class>
     <class>br.com.watchtower.desk.admStore.model.ProductRetailWeight</class>
     <class>br.com.watchtower.desk.admStore.model.ProductMeasureUnit</class>
+    <class>br.com.watchtower.desk.admStore.model.ProductFinancial</class>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/adm_store?zeroDateTimeBehavior=convertToNull"/>
       <property name="javax.persistence.jdbc.user" value="root"/>

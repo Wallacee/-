@@ -62,7 +62,7 @@ public class Product implements BaseModel {
     private Collection<ProductRetailWeight> productRetailWeightCollection;
     @JoinColumn(name = "FINANCIAL_ID", referencedColumnName = "ID")
     @ManyToOne(optional = false)
-    private Financial financialId;
+    private ProductFinancial financialId;
     @JoinColumn(name = "MEASURE_UNIT_ID", referencedColumnName = "ID")
     @ManyToOne(optional = false)
     private ProductMeasureUnit measureUnitId;
@@ -131,11 +131,11 @@ public class Product implements BaseModel {
         this.productRetailWeightCollection = productRetailWeightCollection;
     }
 
-    public Financial getFinancialId() {
+    public ProductFinancial getFinancialId() {
         return financialId;
     }
 
-    public void setFinancialId(Financial financialId) {
+    public void setFinancialId(ProductFinancial financialId) {
         this.financialId = financialId;
     }
 
