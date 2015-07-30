@@ -15,8 +15,6 @@ import javax.persistence.TypedQuery;
  * @author Wallace
  */
 public class ProductMeasureUnitBean extends DAO<ProductMeasureUnit>{
-    public List<ProductMeasureUnit> pMeasureUnit;
-    
     public List<ProductMeasureUnit> findAll(){
         TypedQuery<ProductMeasureUnit> namedQuery = getEntityManager().createNamedQuery("ProductMeasureUnit.findAll",ProductMeasureUnit.class);
         List<ProductMeasureUnit> productMeasureUnits;
