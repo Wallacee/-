@@ -5,19 +5,8 @@
  */
 package br.com.watchtower.desk.admStore.utils;
 
-import java.sql.Time;
-import java.sql.Timestamp;
-import java.text.DateFormat;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeFormatterBuilder;
-import java.time.format.FormatStyle;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Locale;
-import java.util.SimpleTimeZone;
-import java.util.TimeZone;
-import org.eclipse.persistence.jpa.jpql.parser.DateTime;
 
 /**
  *
@@ -55,6 +44,10 @@ public class Utils {
     }
 
     public static String maskUserType(Integer type) {
-        return (type == 0) ? "Admisnitrador" : "Funcionário";
+        return (type == 0) ? "Administrador" : "Funcionário";
+    }
+
+    public static String maskBooleanValue(Boolean boo) {
+        return (boo == true) ? "Sim" : "Não";
     }
 }

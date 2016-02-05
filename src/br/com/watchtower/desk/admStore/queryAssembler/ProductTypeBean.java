@@ -14,8 +14,8 @@ import javax.persistence.TypedQuery;
  *
  * @author Wallace
  */
-public class ProductTypeBean extends DAO<ProductType>{
-    
+public class ProductTypeBean extends DAO<ProductType> {
+
     public List<ProductType> findAll() {
         TypedQuery<ProductType> namedQuery = getEntityManager().createNamedQuery("ProductType.findAll", ProductType.class);
         List<ProductType> productTypes;
@@ -27,4 +27,15 @@ public class ProductTypeBean extends DAO<ProductType>{
         return productTypes;
     }
     
+
+    public ProductType findByType(String type) {
+        TypedQuery<ProductType> typedQuery = getEntityManager().createNamedQuery("ProductType.findByType", ProductType.class);
+        typedQuery.setParameter("type", type);
+        try {
+            return typedQuery.getSingleResult();
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
 }

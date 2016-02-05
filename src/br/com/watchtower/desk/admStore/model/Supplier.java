@@ -5,7 +5,6 @@
  */
 package br.com.watchtower.desk.admStore.model;
 
-import java.io.Serializable;
 import java.util.Collection;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -28,7 +27,7 @@ import javax.xml.bind.annotation.XmlTransient;
 @Table(name = "supplier")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Supplier.findAll", query = "SELECT s FROM Supplier s"),
+    @NamedQuery(name = "Supplier.findAll", query = "SELECT s FROM Supplier s ORDER BY s.fantasyName"),
     @NamedQuery(name = "Supplier.findById", query = "SELECT s FROM Supplier s WHERE s.id = :id"),
     @NamedQuery(name = "Supplier.findByFantasyName", query = "SELECT s FROM Supplier s WHERE s.fantasyName = :fantasyName")})
 public class Supplier implements BaseModel {

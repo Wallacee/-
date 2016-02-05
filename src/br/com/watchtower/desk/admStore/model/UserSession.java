@@ -5,7 +5,6 @@
  */
 package br.com.watchtower.desk.admStore.model;
 
-import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -32,7 +31,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "UserSession.findByDateSessionStart", query = "SELECT u FROM UserSession u WHERE u.dateSessionStart = :dateSessionStart"),
     @NamedQuery(name = "UserSession.findByDateSessionEnd", query = "SELECT u FROM UserSession u WHERE u.dateSessionEnd = :dateSessionEnd"),
     @NamedQuery(name = "UserSession.findByUserId", query = "SELECT u FROM UserSession u WHERE u.userId = :userId")})
-public class UserSession implements BaseModel{
+public class UserSession implements BaseModel {
     private static final long serialVersionUID = 1L;
     @Column(name = "DATE_SESSION_START")
     @Temporal(TemporalType.TIMESTAMP)

@@ -18,7 +18,6 @@ import javax.swing.JPanel;
 public class UserController extends BaseController {
 
     UserBean userBean = new UserBean();
-    
 
     public String save(User user) {
         String retorno;
@@ -36,10 +35,8 @@ public class UserController extends BaseController {
 
     }
 
-    public JPanel view() {
-        JPanel jPanel = new UserPanel();
-        return jPanel;
-
+    public UserPanel view() {
+        return new UserPanel();
     }
 
 }

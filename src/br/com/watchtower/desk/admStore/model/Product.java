@@ -5,6 +5,7 @@
  */
 package br.com.watchtower.desk.admStore.model;
 
+import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
 import javax.persistence.Basic;
@@ -15,8 +16,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -35,11 +34,14 @@ import javax.xml.bind.annotation.XmlTransient;
 @Table(name = "product")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Product.findAll", query = "SELECT p FROM Product p"),
+    @NamedQuery(name = "Product.findAll", query = "SELECT p FROM Product p ORDER BY p.productBrandId.brandName"),
     @NamedQuery(name = "Product.findById", query = "SELECT p FROM Product p WHERE p.id = :id"),
     @NamedQuery(name = "Product.findByMeasureUnit", query = "SELECT p FROM Product p WHERE p.measureUnit = :measureUnit"),
-    @NamedQuery(name = "Product.findByDateRegistration", query = "SELECT p FROM Product p WHERE p.dateRegistration = :dateRegistration")})
+    @NamedQuery(name = "Product.findByActive", query = "SELECT p FROM Product p WHERE p.active = :active"),
+    @NamedQuery(name = "Product.findByDateRegistration", query = "SELECT p FROM Product p WHERE p.dateRegistration = :dateRegistration"),
+    @NamedQuery(name = "Product.findByAll", query = "SELECT p FROM Product p WHERE p.productBrandId.brandName = :brandName AND p.productCategoryId.category = :category AND p.productCoverId.cover = :cover AND p.productDetailId.detail = :detail AND p.productMeasureUnitId.nameMeasure = :nameMeasure AND p.productMeasureUnitId.shortNameMeasure = :shortNameMeasure AND p.productTypeId.type = :type AND p.productValueMeasureUnitId.value = :valueMeasureUnit AND p.measureUnit = :measureUnit AND p.active = :active")})
 public class Product implements BaseModel {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -49,32 +51,35 @@ public class Product implements BaseModel {
     @Basic(optional = false)
     @Column(name = "MEASURE_UNIT")
     private boolean measureUnit;
+    @Column(name = "ACTIVE")
+    private Boolean active;
     @Basic(optional = false)
     @Column(name = "DATE_REGISTRATION")
     @Temporal(TemporalType.TIMESTAMP)
     private Date dateRegistration;
-    @JoinTable(name = "product_has_product_value_measure_unit", joinColumns = {
-        @JoinColumn(name = "PRODUCT_ID", referencedColumnName = "ID")}, inverseJoinColumns = {
-        @JoinColumn(name = "PRODUCT_VALUE_MEASURE_UNIT_ID", referencedColumnName = "ID")})
-    @ManyToMany
-    private Collection<ProductValueMeasureUnit> productValueMeasureUnitCollection;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "productId")
-    private Collection<ProductRetailWeight> productRetailWeightCollection;
-    @JoinColumn(name = "FINANCIAL_ID", referencedColumnName = "ID")
+    @JoinColumn(name = "PRODUCT_MEASURE_UNIT_ID", referencedColumnName = "ID")
     @ManyToOne(optional = false)
-    private ProductFinancial financialId;
-    @JoinColumn(name = "MEASURE_UNIT_ID", referencedColumnName = "ID")
-    @ManyToOne(optional = false)
-    private ProductMeasureUnit measureUnitId;
+    private ProductMeasureUnit productMeasureUnitId;
     @JoinColumn(name = "PRODUCT_BRAND_ID", referencedColumnName = "ID")
     @ManyToOne(optional = false)
     private ProductBrand productBrandId;
-    @JoinColumn(name = "PRODUCT_CLASS_ID", referencedColumnName = "ID")
+    @JoinColumn(name = "PRODUCT_CATEGORY_ID", referencedColumnName = "ID")
     @ManyToOne(optional = false)
-    private ProductClass productClassId;
+    private ProductCategory productCategoryId;
+    @JoinColumn(name = "PRODUCT_COVER_ID", referencedColumnName = "ID")
+    @ManyToOne(optional = false)
+    private ProductCover productCoverId;
+    @JoinColumn(name = "PRODUCT_DETAIL_ID", referencedColumnName = "ID")
+    @ManyToOne
+    private ProductDetail productDetailId;
     @JoinColumn(name = "PRODUCT_TYPE_ID", referencedColumnName = "ID")
     @ManyToOne(optional = false)
     private ProductType productTypeId;
+    @JoinColumn(name = "PRODUCT_VALUE_MEASURE_UNIT_ID", referencedColumnName = "ID")
+    @ManyToOne(optional = false)
+    private ProductValueMeasureUnit productValueMeasureUnitId;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "productId")
+    private Collection<StorePratileiraAmount> storePratileiraAmountCollection;
 
     public Product() {
     }
@@ -105,6 +110,14 @@ public class Product implements BaseModel {
         this.measureUnit = measureUnit;
     }
 
+    public Boolean getActive() {
+        return active;
+    }
+
+    public void setActive(Boolean active) {
+        this.active = active;
+    }
+
     public Date getDateRegistration() {
         return dateRegistration;
     }
@@ -113,38 +126,12 @@ public class Product implements BaseModel {
         this.dateRegistration = dateRegistration;
     }
 
-    @XmlTransient
-    public Collection<ProductValueMeasureUnit> getProductValueMeasureUnitCollection() {
-        return productValueMeasureUnitCollection;
+    public ProductMeasureUnit getProductMeasureUnitId() {
+        return productMeasureUnitId;
     }
 
-    public void setProductValueMeasureUnitCollection(Collection<ProductValueMeasureUnit> productValueMeasureUnitCollection) {
-        this.productValueMeasureUnitCollection = productValueMeasureUnitCollection;
-    }
-
-    @XmlTransient
-    public Collection<ProductRetailWeight> getProductRetailWeightCollection() {
-        return productRetailWeightCollection;
-    }
-
-    public void setProductRetailWeightCollection(Collection<ProductRetailWeight> productRetailWeightCollection) {
-        this.productRetailWeightCollection = productRetailWeightCollection;
-    }
-
-    public ProductFinancial getFinancialId() {
-        return financialId;
-    }
-
-    public void setFinancialId(ProductFinancial financialId) {
-        this.financialId = financialId;
-    }
-
-    public ProductMeasureUnit getMeasureUnitId() {
-        return measureUnitId;
-    }
-
-    public void setMeasureUnitId(ProductMeasureUnit measureUnitId) {
-        this.measureUnitId = measureUnitId;
+    public void setProductMeasureUnitId(ProductMeasureUnit productMeasureUnitId) {
+        this.productMeasureUnitId = productMeasureUnitId;
     }
 
     public ProductBrand getProductBrandId() {
@@ -155,12 +142,28 @@ public class Product implements BaseModel {
         this.productBrandId = productBrandId;
     }
 
-    public ProductClass getProductClassId() {
-        return productClassId;
+    public ProductCategory getProductCategoryId() {
+        return productCategoryId;
     }
 
-    public void setProductClassId(ProductClass productClassId) {
-        this.productClassId = productClassId;
+    public void setProductCategoryId(ProductCategory productCategoryId) {
+        this.productCategoryId = productCategoryId;
+    }
+
+    public ProductCover getProductCoverId() {
+        return productCoverId;
+    }
+
+    public void setProductCoverId(ProductCover productCoverId) {
+        this.productCoverId = productCoverId;
+    }
+
+    public ProductDetail getProductDetailId() {
+        return productDetailId;
+    }
+
+    public void setProductDetailId(ProductDetail productDetailId) {
+        this.productDetailId = productDetailId;
     }
 
     public ProductType getProductTypeId() {
@@ -169,6 +172,23 @@ public class Product implements BaseModel {
 
     public void setProductTypeId(ProductType productTypeId) {
         this.productTypeId = productTypeId;
+    }
+
+    public ProductValueMeasureUnit getProductValueMeasureUnitId() {
+        return productValueMeasureUnitId;
+    }
+
+    public void setProductValueMeasureUnitId(ProductValueMeasureUnit productValueMeasureUnitId) {
+        this.productValueMeasureUnitId = productValueMeasureUnitId;
+    }
+
+    @XmlTransient
+    public Collection<StorePratileiraAmount> getStorePratileiraAmountCollection() {
+        return storePratileiraAmountCollection;
+    }
+
+    public void setStorePratileiraAmountCollection(Collection<StorePratileiraAmount> storePratileiraAmountCollection) {
+        this.storePratileiraAmountCollection = storePratileiraAmountCollection;
     }
 
     @Override
@@ -195,5 +215,5 @@ public class Product implements BaseModel {
     public String toString() {
         return "br.com.watchtower.desk.admStore.model.Product[ id=" + id + " ]";
     }
-    
+
 }
