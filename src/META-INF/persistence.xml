@@ -18,12 +18,17 @@
     <class>br.com.watchtower.desk.admStore.model.Employee</class>
     <class>br.com.watchtower.desk.admStore.model.Address</class>
     <class>br.com.watchtower.desk.admStore.model.Supplier</class>
-    <class>br.com.watchtower.desk.admStore.model.ProductAmount</class>
     <class>br.com.watchtower.desk.admStore.model.ProductValueMeasureUnit</class>
-    <class>br.com.watchtower.desk.admStore.model.ProductClass</class>
     <class>br.com.watchtower.desk.admStore.model.ProductRetailWeight</class>
     <class>br.com.watchtower.desk.admStore.model.ProductMeasureUnit</class>
     <class>br.com.watchtower.desk.admStore.model.ProductFinancial</class>
+    <class>br.com.watchtower.desk.admStore.model.ProductCover</class>
+    <class>br.com.watchtower.desk.admStore.model.ProductCategory</class>
+    <class>br.com.watchtower.desk.admStore.model.StorePratileiraAmount</class>
+    <class>br.com.watchtower.desk.admStore.model.ProductSaleValue</class>
+    <class>br.com.watchtower.desk.admStore.model.ProductBuyValue</class>
+    <class>br.com.watchtower.desk.admStore.model.ProductDetail</class>
+    <class>br.com.watchtower.desk.admStore.controller.StorePratileiraAmount</class>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/adm_store?zeroDateTimeBehavior=convertToNull"/>
       <property name="javax.persistence.jdbc.user" value="root"/>

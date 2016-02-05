@@ -5,8 +5,8 @@
  */
 package br.com.watchtower.desk.admStore.model;
 
-import java.io.Serializable;
 import java.util.Collection;
+import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -18,6 +18,8 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
@@ -29,10 +31,13 @@ import javax.xml.bind.annotation.XmlTransient;
 @Table(name = "product_measure_unit")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "ProductMeasureUnit.findAll", query = "SELECT p FROM ProductMeasureUnit p"),
+    @NamedQuery(name = "ProductMeasureUnit.findAll", query = "SELECT p FROM ProductMeasureUnit p ORDER BY p.nameMeasure"),
     @NamedQuery(name = "ProductMeasureUnit.findById", query = "SELECT p FROM ProductMeasureUnit p WHERE p.id = :id"),
     @NamedQuery(name = "ProductMeasureUnit.findByNameMeasure", query = "SELECT p FROM ProductMeasureUnit p WHERE p.nameMeasure = :nameMeasure"),
-    @NamedQuery(name = "ProductMeasureUnit.findByShortNameMeasure", query = "SELECT p FROM ProductMeasureUnit p WHERE p.shortNameMeasure = :shortNameMeasure")})
+    @NamedQuery(name = "ProductMeasureUnit.findByShortNameMeasure", query = "SELECT p FROM ProductMeasureUnit p WHERE p.shortNameMeasure = :shortNameMeasure"),
+    @NamedQuery(name = "ProductMeasureUnit.findByNameMeasureNShortNameMeasure", query = "SELECT p FROM ProductMeasureUnit p WHERE p.nameMeasure = :nameMeasure AND p.shortNameMeasure = :shortNameMeasure"),
+    @NamedQuery(name = "ProductMeasureUnit.findByActive", query = "SELECT p FROM ProductMeasureUnit p WHERE p.active = :active"),
+    @NamedQuery(name = "ProductMeasureUnit.findByDateRegistration", query = "SELECT p FROM ProductMeasureUnit p WHERE p.dateRegistration = :dateRegistration")})
 public class ProductMeasureUnit implements BaseModel {
     private static final long serialVersionUID = 1L;
     @Id
@@ -45,7 +50,12 @@ public class ProductMeasureUnit implements BaseModel {
     private String nameMeasure;
     @Column(name = "SHORT_NAME_MEASURE")
     private String shortNameMeasure;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "measureUnitId")
+    @Column(name = "ACTIVE")
+    private Boolean active;
+    @Column(name = "DATE_REGISTRATION")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date dateRegistration;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "productMeasureUnitId")
     private Collection<Product> productCollection;
 
     public ProductMeasureUnit() {
@@ -82,6 +92,22 @@ public class ProductMeasureUnit implements BaseModel {
 
     public void setShortNameMeasure(String shortNameMeasure) {
         this.shortNameMeasure = shortNameMeasure;
+    }
+
+    public Boolean getActive() {
+        return active;
+    }
+
+    public void setActive(Boolean active) {
+        this.active = active;
+    }
+
+    public Date getDateRegistration() {
+        return dateRegistration;
+    }
+
+    public void setDateRegistration(Date dateRegistration) {
+        this.dateRegistration = dateRegistration;
     }
 
     @XmlTransient

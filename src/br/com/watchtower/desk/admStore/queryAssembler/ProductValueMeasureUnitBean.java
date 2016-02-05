@@ -16,7 +16,6 @@ import javax.persistence.TypedQuery;
  */
 public class ProductValueMeasureUnitBean extends DAO<ProductValueMeasureUnit> {
 
-    public List<ProductValueMeasureUnit> pValueMeasureUnit;
 
     public List<ProductValueMeasureUnit> findAll() {
         TypedQuery<ProductValueMeasureUnit> namedQuery = getEntityManager().createNamedQuery("ProductValueMeasureUnit.findAll", ProductValueMeasureUnit.class);
@@ -27,5 +26,15 @@ public class ProductValueMeasureUnitBean extends DAO<ProductValueMeasureUnit> {
             productValueMeasureUnits = null;
         }
         return productValueMeasureUnits;
+    }
+
+    public ProductValueMeasureUnit findByValueMeasureUnit(String value) {
+        TypedQuery<ProductValueMeasureUnit> typedQuery = getEntityManager().createNamedQuery("ProductValueMeasureUnit.findByValue", ProductValueMeasureUnit.class);
+        typedQuery.setParameter("value", Float.parseFloat(value));
+        try {
+            return typedQuery.getSingleResult();
+        } catch (Exception e) {
+            return null;
+        }
     }
 }

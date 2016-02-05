@@ -14,9 +14,10 @@ import javax.persistence.TypedQuery;
  *
  * @author Wallace
  */
-public class ProductBrandBean extends DAO<ProductBrand>{
-    public List<ProductBrand> findA(){
-        TypedQuery<ProductBrand> namedQuery = getEntityManager().createNamedQuery("ProductBrand.findAll",ProductBrand.class);
+public class ProductBrandBean extends DAO<ProductBrand> {
+
+    public List<ProductBrand> findAll() {
+        TypedQuery<ProductBrand> namedQuery = getEntityManager().createNamedQuery("ProductBrand.findAll", ProductBrand.class);
         List<ProductBrand> productBrands;
         try {
             productBrands = namedQuery.getResultList();
@@ -25,5 +26,14 @@ public class ProductBrandBean extends DAO<ProductBrand>{
         }
         return productBrands;
     }
-}
 
+    public ProductBrand findByBrandName(String brandName) {
+        TypedQuery<ProductBrand> typedQuery = getEntityManager().createNamedQuery("ProductBrand.findByBrandName", ProductBrand.class);
+        typedQuery.setParameter("brandName", brandName);
+        try {
+            return typedQuery.getSingleResult();
+        } catch (Exception e) {
+            return null;
+        }
+    }
+}

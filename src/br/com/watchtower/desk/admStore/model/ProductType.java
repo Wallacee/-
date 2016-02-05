@@ -5,8 +5,9 @@
  */
 package br.com.watchtower.desk.admStore.model;
 
-import java.io.Serializable;
+
 import java.util.Collection;
+import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -18,6 +19,8 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
@@ -29,10 +32,12 @@ import javax.xml.bind.annotation.XmlTransient;
 @Table(name = "product_type")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "ProductType.findAll", query = "SELECT p FROM ProductType p"),
+    @NamedQuery(name = "ProductType.findAll", query = "SELECT p FROM ProductType p ORDER BY p.type"),
     @NamedQuery(name = "ProductType.findById", query = "SELECT p FROM ProductType p WHERE p.id = :id"),
-    @NamedQuery(name = "ProductType.findByType", query = "SELECT p FROM ProductType p WHERE p.type = :type")})
-public class ProductType implements BaseModel{
+    @NamedQuery(name = "ProductType.findByType", query = "SELECT p FROM ProductType p WHERE p.type = :type"),
+    @NamedQuery(name = "ProductType.findByActive", query = "SELECT p FROM ProductType p WHERE p.active = :active"),
+    @NamedQuery(name = "ProductType.findByDateRegistration", query = "SELECT p FROM ProductType p WHERE p.dateRegistration = :dateRegistration")})
+public class ProductType implements BaseModel {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -42,6 +47,11 @@ public class ProductType implements BaseModel{
     @Basic(optional = false)
     @Column(name = "TYPE")
     private String type;
+    @Column(name = "ACTIVE")
+    private Boolean active;
+    @Column(name = "DATE_REGISTRATION")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date dateRegistration;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "productTypeId")
     private Collection<Product> productCollection;
 
@@ -71,6 +81,22 @@ public class ProductType implements BaseModel{
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public Boolean getActive() {
+        return active;
+    }
+
+    public void setActive(Boolean active) {
+        this.active = active;
+    }
+
+    public Date getDateRegistration() {
+        return dateRegistration;
+    }
+
+    public void setDateRegistration(Date dateRegistration) {
+        this.dateRegistration = dateRegistration;
     }
 
     @XmlTransient

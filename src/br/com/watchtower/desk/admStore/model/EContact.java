@@ -5,7 +5,6 @@
  */
 package br.com.watchtower.desk.admStore.model;
 
-import java.io.Serializable;
 import java.util.Collection;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
@@ -42,6 +41,7 @@ public class EContact implements BaseModel {
     @Basic(optional = false)
     @Column(name = "ID")
     private Integer id;
+    @Basic(optional = false)
     @Column(name = "CONTACT")
     private String contact;
     @JoinTable(name = "supplier_has_e_contact", joinColumns = {
@@ -57,6 +57,11 @@ public class EContact implements BaseModel {
 
     public EContact(Integer id) {
         this.id = id;
+    }
+
+    public EContact(Integer id, String contact) {
+        this.id = id;
+        this.contact = contact;
     }
 
     public Integer getId() {

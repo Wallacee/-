@@ -5,18 +5,21 @@
  */
 package br.com.watchtower.desk.admStore.model;
 
-import java.io.Serializable;
 import java.util.Collection;
+import java.util.Date;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
@@ -30,8 +33,9 @@ import javax.xml.bind.annotation.XmlTransient;
 @NamedQueries({
     @NamedQuery(name = "ProductValueMeasureUnit.findAll", query = "SELECT p FROM ProductValueMeasureUnit p"),
     @NamedQuery(name = "ProductValueMeasureUnit.findById", query = "SELECT p FROM ProductValueMeasureUnit p WHERE p.id = :id"),
-    @NamedQuery(name = "ProductValueMeasureUnit.findByValue", query = "SELECT p FROM ProductValueMeasureUnit p WHERE p.value = :value")})
-public class ProductValueMeasureUnit implements Serializable {
+    @NamedQuery(name = "ProductValueMeasureUnit.findByValue", query = "SELECT p FROM ProductValueMeasureUnit p WHERE p.value = :value"),
+    @NamedQuery(name = "ProductValueMeasureUnit.findByDateRegistration", query = "SELECT p FROM ProductValueMeasureUnit p WHERE p.dateRegistration = :dateRegistration")})
+public class ProductValueMeasureUnit implements BaseModel {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -40,8 +44,11 @@ public class ProductValueMeasureUnit implements Serializable {
     private Integer id;
     @Basic(optional = false)
     @Column(name = "VALUE")
-    private int value;
-    @ManyToMany(mappedBy = "productValueMeasureUnitCollection")
+    private float value;
+    @Column(name = "DATE_REGISTRATION")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date dateRegistration;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "productValueMeasureUnitId")
     private Collection<Product> productCollection;
 
     public ProductValueMeasureUnit() {
@@ -51,7 +58,7 @@ public class ProductValueMeasureUnit implements Serializable {
         this.id = id;
     }
 
-    public ProductValueMeasureUnit(Integer id, int value) {
+    public ProductValueMeasureUnit(Integer id, float value) {
         this.id = id;
         this.value = value;
     }
@@ -64,12 +71,20 @@ public class ProductValueMeasureUnit implements Serializable {
         this.id = id;
     }
 
-    public int getValue() {
+    public float getValue() {
         return value;
     }
 
-    public void setValue(int value) {
+    public void setValue(float value) {
         this.value = value;
+    }
+
+    public Date getDateRegistration() {
+        return dateRegistration;
+    }
+
+    public void setDateRegistration(Date dateRegistration) {
+        this.dateRegistration = dateRegistration;
     }
 
     @XmlTransient

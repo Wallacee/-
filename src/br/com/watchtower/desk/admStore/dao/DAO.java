@@ -17,8 +17,8 @@ import javax.persistence.Persistence;
 public abstract class DAO<T> {
 
     private final EntityManagerFactory managerFactory = Persistence.createEntityManagerFactory("AdmStorePU");
-    private final EntityManager entityManager = managerFactory.createEntityManager();
-    private final EntityTransaction entityTransaction = entityManager.getTransaction();
+    private final EntityManager entityManager = getManagerFactory().createEntityManager();
+    private final EntityTransaction entityTransaction = getEntityManager().getTransaction();
 
     public EntityManager getEntityManager() {
         return entityManager;
@@ -54,8 +54,9 @@ public abstract class DAO<T> {
         if (!getEntityTransaction().isActive()) {
             getEntityTransaction().begin();
         }
-        getEntityManager().persist(entity);
-        this.getEntityManager().merge(entity);
+//        getEntityManager().persist(entity);
+        getEntityManager().merge(entity);
+        getEntityTransaction().commit();
 
     }
 
@@ -63,8 +64,8 @@ public abstract class DAO<T> {
         if (!getEntityTransaction().isActive()) {
             getEntityTransaction().begin();
         }
-        getEntityManager().persist(entity);
-        this.getEntityManager().detach(entity);
+//        getEntityManager().persist(entity);
+        getEntityManager().detach(entity);
 
     }
 
@@ -77,8 +78,10 @@ public abstract class DAO<T> {
         if (!getEntityTransaction().isActive()) {
             getEntityTransaction().begin();
         }
-        getEntityManager().persist(entity);
-        this.getEntityManager().remove(this.getEntityManager().merge(entity));
+//        getEntityManager().persist(entity);
+//        getEntityManager().remove(getEntityManager().merge(entity));
+        getEntityManager().remove(entity);
+        getEntityTransaction().commit();
 
     }
 

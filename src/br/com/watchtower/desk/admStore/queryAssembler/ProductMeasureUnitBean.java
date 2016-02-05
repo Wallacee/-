@@ -14,9 +14,10 @@ import javax.persistence.TypedQuery;
  *
  * @author Wallace
  */
-public class ProductMeasureUnitBean extends DAO<ProductMeasureUnit>{
-    public List<ProductMeasureUnit> findAll(){
-        TypedQuery<ProductMeasureUnit> namedQuery = getEntityManager().createNamedQuery("ProductMeasureUnit.findAll",ProductMeasureUnit.class);
+public class ProductMeasureUnitBean extends DAO<ProductMeasureUnit> {
+
+    public List<ProductMeasureUnit> findAll() {
+        TypedQuery<ProductMeasureUnit> namedQuery = getEntityManager().createNamedQuery("ProductMeasureUnit.findAll", ProductMeasureUnit.class);
         List<ProductMeasureUnit> productMeasureUnits;
         try {
             productMeasureUnits = namedQuery.getResultList();
@@ -25,5 +26,34 @@ public class ProductMeasureUnitBean extends DAO<ProductMeasureUnit>{
         }
         return productMeasureUnits;
     }
-    
+
+    public ProductMeasureUnit findByNameMeasure(String nameMeasure) {
+        TypedQuery<ProductMeasureUnit> typedQuery = getEntityManager().createNamedQuery("ProductMeasureUnit.findByNameMeasure", ProductMeasureUnit.class);
+        typedQuery.setParameter("nameMeasure", nameMeasure);
+        try {
+            return typedQuery.getSingleResult();
+        } catch (Exception e) {
+            return null;
+        }
+    }
+    public ProductMeasureUnit findByShortNameMeasure(String shortNameMeasure) {
+        TypedQuery<ProductMeasureUnit> typedQuery = getEntityManager().createNamedQuery("ProductMeasureUnit.findByShortNameMeasure", ProductMeasureUnit.class);
+        typedQuery.setParameter("shortNameMeasure", shortNameMeasure);
+        try {
+            return typedQuery.getSingleResult();
+        } catch (Exception e) {
+            return null;
+        }
+    }
+    public ProductMeasureUnit findByNameMeasureNShortNameMeasure(String nameMeasure, String shortNameMeasure) {
+        TypedQuery<ProductMeasureUnit> typedQuery = getEntityManager().createNamedQuery("ProductMeasureUnit.findByNameMeasureNShortNameMeasure", ProductMeasureUnit.class);
+        typedQuery.setParameter("nameMeasure", nameMeasure);
+        typedQuery.setParameter("shortNameMeasure", shortNameMeasure);
+        try {
+            return typedQuery.getSingleResult();
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
 }

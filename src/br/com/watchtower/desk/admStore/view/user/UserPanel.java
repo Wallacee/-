@@ -7,11 +7,8 @@ package br.com.watchtower.desk.admStore.view.user;
 
 import br.com.watchtower.desk.admStore.controller.UserController;
 import br.com.watchtower.desk.admStore.model.User;
-import br.com.watchtower.desk.admStore.utils.Utils;
-import java.awt.Dimension;
-import java.awt.Toolkit;
 import java.util.Calendar;
-import java.util.List;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
@@ -25,24 +22,25 @@ public class UserPanel extends javax.swing.JPanel {
     private TableRowSorter sorter;
     private DefaultTableModel defaultTableModel;
     private UserController userController = new UserController();
+    private JFrame jFrame;
 
     /**
      * Creates new form UserPanel
      */
     public UserPanel() {
-        initComponents();
-        sorter = null;
-        defaultTableModel = null;
-//        setUserController(new UserController());
-//        userController = new UserController();
-        Toolkit toolkit = Toolkit.getDefaultToolkit();
-        Dimension dimension = new Dimension(toolkit.getScreenSize());
-        int height = (int) dimension.getHeight();
-        int width = (int) dimension.getWidth();
-        this.setSize(width, height);
-        this.setLocation(width / 2 - getWidth() / 2, height / 2 - getHeight() / 2);
-        setTable();
-        setComboBox();
+//        initComponents();
+//        sorter = null;
+//        defaultTableModel = null;
+////        setUserController(new UserController());
+////        userController = new UserController();
+//        Toolkit toolkit = Toolkit.getDefaultToolkit();
+//        Dimension dimension = new Dimension(toolkit.getScreenSize());
+//        int height = (int) dimension.getHeight();
+//        int width = (int) dimension.getWidth();
+//        this.setSize(width, height);
+//        this.setLocation(width / 2 - getWidth() / 2, height / 2 - getHeight() / 2);
+//        setTable();
+//        setComboBox();
     }
 
     public UserController getUserController() {
@@ -63,13 +61,13 @@ public class UserPanel extends javax.swing.JPanel {
     }
 
     private void setTable() {
-        List<User> listUser = getUserController().listarTodos();
-        defaultTableModel = getUserController().makeTable(getUserController().getUserTableColunasValores());
-        for (User user : listUser) {
-            defaultTableModel.addRow(new Object[]{user.getFullName(), Utils.maskUserType(user.getType()), user.getRegistrationDate()});
-        }
-        jTable1.setModel(defaultTableModel);
-        setTableRowSorter();
+//        List<User> listUser = getUserController().listarTodos();
+//        defaultTableModel = getUserController().makeTable(getUserController().getUserTableColunasValores());
+//        for (User user : listUser) {
+//            defaultTableModel.addRow(new Object[]{user.getFullName(), Utils.maskUserType(user.getType()), user.getRegistrationDate()});
+//        }
+//        jTable1.setModel(defaultTableModel);
+//        setTableRowSorter();
     }
 
     /**
@@ -237,4 +235,14 @@ public class UserPanel extends javax.swing.JPanel {
     private javax.swing.JTable jTable1;
     private javax.swing.JTextField jTextField1;
     // End of variables declaration//GEN-END:variables
+
+    public JFrame getjFrame() {
+        return jFrame;
+    }
+
+    public void setjFrame(JFrame jFrame) {
+        this.jFrame = jFrame;
+    }
+
+
 }
